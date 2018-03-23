@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+</head>
+<body>
+<h1>Hello World</h1>
+{{/* コメント*/}}
+
+{{/* ドット名前でgoから受け取れる */}}
+<h1>{{.a}}</h1>
+
+{{/* ループはrange, ドットで要素にアクセス, endで終了 */}}
+<ul>
+{{range .b}}
+    <li>{{.}}</li>
+{{end}}
+</ul>
+
+{{/* 構造体は、ドットにメンバ名でアクセス */}}
+{{/*{{range .c}}*/}}
+{{/*<p>{{.Id}}<b>{{.Name}}</b></p>*/}}
+{{/*{{end}}*/}}
+
+{{/* 構造体、ループなしなら, ドット変数ドットメンバ */}}
+{{/*<p>{{.d.Id}}<b>{{.d.Name}}</b></p>*/}}
+
+{{/* if文 */}}
+{{if .e}}
+<p> e true </p>
+{{else}}
+<p> e false </p>
+{{end}}
+
+<a href="/index">Index</a>
+<a href="/create">Create</a>
+<a href="/edit/1">Edit</a>
+<a href="/show/1">Show</a>
+
+</body>
+</html>

@@ -4,29 +4,80 @@ import (
 	"fmt"
 	"net/http"
 	"log"
-	"html/template"
+	"github.com/gin-gonic/gin"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("./index.html"))
-	if err := t.ExecuteTemplate(w, "index.html", nil); err != nil {
-		log.Fatal(err)
-	}
+type C struct {
+	Id int
+	Name string
 }
 
-func testHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("./templates/hoge.html"))
-	if err := t.ExecuteTemplate(w, "hoge.html", nil); err != nil {
-		log.Fatal(err)
-	}}
+func Top(c *gin.Context) {
+	c.HTML(http.StatusOK, "Top.tmpl", gin.H{
+		"a": "a",
+		"b": []string{"b_todo1","b_todo2"},
+		"e": true,
+		"f": false,
+		"h": true,
+	})
+}
+
+func Index(c *gin.Context) {
+	c.HTML(http.StatusOK, "Index.tmpl", gin.H{
+	})
+}
+
+func Show(c *gin.Context) {
+	params := c.Params
+	fmt.Printf("Show test ID : " + params.ByName("id"))
+	c.HTML(http.StatusOK, "Show.tmpl", gin.H{
+	})
+}
+
+func Create(c *gin.Context) {
+	c.HTML(http.StatusOK, "Create.tmpl", gin.H{
+	})
+}
+
+func Store(c *gin.Context) {
+	params := c.Params
+	fmt.Printf("POst test ID : " + params.ByName("id"))
+	//c.HTML(http.StatusOK, "Edit.tmpl", gin.H{
+	//})
+}
+
+func Edit(c *gin.Context) {
+	params := c.Params
+	fmt.Printf("Edit test ID : " + params.ByName("id"))
+	c.HTML(http.StatusOK, "Edit.tmpl", gin.H{
+	})
+}
+
+func Update(c *gin.Context) {
+	params := c.Params
+	fmt.Printf("Delete test ID : " + params.ByName("id"))
+	c.HTML(http.StatusOK, "Edit.tmpl", gin.H{
+	})
+}
+
+func Delete(c *gin.Context) {
+	params := c.Params
+	fmt.Printf("Delete test ID : " + params.ByName("id"))
+	//c.HTML(http.StatusOK, "Edit.tmpl", gin.H{
+	//})
+}
 
 func main() {
-	http.HandleFunc("/", handler) // Render web page.
-	http.HandleFunc("/hoge", testHandler) // Render web page.
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}else {
-		fmt.Printf("Listen: http://localhost:8080/")
-	}
+	/* Routing start */
+	router := gin.Default()
+	router.LoadHTMLGlob("templates/*.tmpl") // Enable templates.
+	router.GET("/", Top)
+	router.GET("/index", Index)
+	router.GET("/create", Create)
+	router.POST("/store", Store)
+	router.GET("/show/:id", Show)
+	router.GET("/edit/:id", Edit)
+	router.PATCH("/update", Update)
+	router.DELETE("/delete/:id", Delete)
+	log.Fatal(router.Run(":8080")) // router.Run(":8080") for a hard coded port
 }
