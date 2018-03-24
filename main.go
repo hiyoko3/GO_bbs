@@ -5,27 +5,8 @@ import (
 	"net/http"
 	"log"
 	"github.com/gin-gonic/gin"
+	"./app"
 )
-
-type C struct {
-	Id int
-	Name string
-}
-
-func Top(c *gin.Context) {
-	c.HTML(http.StatusOK, "Top.tmpl", gin.H{
-		"a": "a",
-		"b": []string{"b_todo1","b_todo2"},
-		"e": true,
-		"f": false,
-		"h": true,
-	})
-}
-
-func Index(c *gin.Context) {
-	c.HTML(http.StatusOK, "Index.tmpl", gin.H{
-	})
-}
 
 func Show(c *gin.Context) {
 	params := c.Params
@@ -68,16 +49,16 @@ func Delete(c *gin.Context) {
 }
 
 func main() {
+	app.DBConnect()
 	/* Routing start */
 	router := gin.Default()
-	router.LoadHTMLGlob("templates/*.tmpl") // Enable templates.
-	router.GET("/", Top)
-	router.GET("/index", Index)
-	router.GET("/create", Create)
-	router.POST("/store", Store)
-	router.GET("/show/:id", Show)
-	router.GET("/edit/:id", Edit)
-	router.PATCH("/update", Update)
-	router.DELETE("/delete/:id", Delete)
+	// router.LoadHTMLGlob("templates/*.tmpl") // Enable templates.
+	router.GET("/index", app.Index)
+	//router.GET("/create", Create)
+	//router.POST("/store", Store)
+	//router.GET("/show/:id", Show)
+	//router.GET("/edit/:id", Edit)
+	//router.PATCH("/update", Update)
+	//router.DELETE("/delete/:id", Delete)
 	log.Fatal(router.Run(":8080")) // router.Run(":8080") for a hard coded port
 }

@@ -1,5 +1,7 @@
+const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     // If mode is "production", the app is optimized.
@@ -7,7 +9,12 @@ module.exports = {
     mode: 'development',
     entry: __dirname + "/src/index.jsx", // トランスパイル対象
     plugins: [
-        new ExtractTextPlugin('[name].css')
+        new HTMLWebpackPlugin({
+            // title: 'Code Splitting',
+            template: './src/index.html'
+        }),
+        new ExtractTextPlugin('style.css'),
+        new webpack.LoaderOptionsPlugin({ options: {} })
     ],
     output: {
         path: __dirname + '/dist', // 出力先ディレクトリ
@@ -22,18 +29,33 @@ module.exports = {
                 options: {
                     presets: ['react', ["env", {
                         "targets": {
-                            "browsers": ["last 2 versions", "safari >= 7"]
+                            "browsers": [
+                                "last 2 versions",
+                                "safari >= 7"
+                            ]
                         }
-                    }]
-                    ] // reactとes2015をトランスパイル対象とする
+                    }]] // reactとes6をトランスパイル対象とする
                 }
             },
             {
-                test: /\.scss$/,
+                test: /\.(scss|css)$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: ['css-loader', 'sass-loader']
                 })
+            },
+            {
+                test: /\.html$/,
+                loader: 'html-loader'
+            },
+            {
+                // enforce: 'pre'を指定することによって
+                // enforce: 'pre'がついていないローダーより早く処理が実行される
+                // babel-loaderで変換する前にコードを検証したいため、指定が必要
+                enforce: 'pre',
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader'
             }
         ]
     },
