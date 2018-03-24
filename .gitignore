@@ -1,3 +1,7 @@
 .idea
 **/.DS_store
 gin-bin
+node_modules
+dist/**
+yarn.lock
+package-lock.json
