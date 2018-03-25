@@ -4,7 +4,7 @@
   "description": "The BBS application with Golang.",
   "main": "index.js",
   "scripts": {
-    "start": "gin -i --all run main.go",
+    "start": "gin -i run main.go",
     "serve": "webpack-dev-server --config webpack.config.js | webpack --mode development --optimize-minimize --devtool source-map --watch",
     "build": "webpack --mode production --optimize-minimize --devtool source-map",
     "test": "echo \"Error: no test specified\" && exit 1"
