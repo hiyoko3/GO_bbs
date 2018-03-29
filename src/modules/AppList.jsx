@@ -47,7 +47,6 @@ const styles = theme => ({
     }
 });
 
-
 class AppList extends Component {
     constructor(props) {
         super(props);
@@ -57,19 +56,26 @@ class AppList extends Component {
         };
         // Enable my methods.
         this.getComments = this.getComments.bind(this);
-        this.deleteArticle = this.deleteArticle.bind(this);
     }
 
     getComments() {
         axios.get('http://localhost:8080/index')
             .then(res => {
                 this.setState({comments: res.data.result});
+            }).catch(res => {
+                console.error(res);
             });
     }
 
-    deleteArticle () {
-        if(alert('Do you delete this article?')){
-            console.warn('deleted!');
+    deleteArticle (id) {
+        if(confirm('Do you delete this article?')){
+            axios.post('http://localhost:8080/delete/' + id)
+                .then(res => {
+                    console.warn(res);
+                    this.setState({comments: this.state.comments.filter((v) => v.User_id !== id)})
+                }).catch(res => {
+                    console.error(res);
+                });
         }
     }
 
@@ -119,7 +125,7 @@ class AppList extends Component {
                                 <IconButton aria-label="Share">
                                     <ShareIcon />
                                 </IconButton>
-                                <IconButton className={classes.deleteIcon} onClick={this.deleteArticle} aria-label="Delete">
+                                <IconButton className={classes.deleteIcon} onClick={this.deleteArticle.bind(this, c.User_id)} aria-label="Delete">
                                     <DeleteIcon />
                                 </IconButton>
                             </CardActions>
@@ -132,7 +138,7 @@ class AppList extends Component {
         return (
             <div className={classes.root}>
                 <Typography variant="title" className={classes.title}>
-                    Avatar with text and icon
+                    Article Index
                 </Typography>
                 <Grid container spacing={16}>
                     {list}

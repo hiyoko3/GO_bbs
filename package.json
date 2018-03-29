@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "gin -i run main.go",
-    "serve": "gin -i run main.go | webpack-dev-server --config webpack.config.js | webpack --mode development --optimize-minimize --devtool source-map --watch",
-    "build": "webpack --mode production --optimize-minimize --devtool source-map",
+    "serve": "webpack-dev-server --config webpack.config.js | webpack --mode development --optimize-minimize --devtool source-map --watch",
+    "dev": "gin -i run main.go | webpack-dev-server --config webpack.config.js | webpack --mode development --optimize-minimize --devtool source-map --watch",
+    "build": "webpack --mode production --optimize-minimize",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -51,6 +52,7 @@
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-dropzone": "^4.2.9",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.8",
