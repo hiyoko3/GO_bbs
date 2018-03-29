@@ -2,16 +2,18 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from 'material-ui/styles'
 import classNames from 'classnames'
-import Grid from "material-ui/es/Grid/Grid"
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import Grid from 'material-ui/es/Grid/Grid'
+import { withRouter } from 'react-router';
+import {HashRouter as Router, Route} from 'react-router-dom'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import IconButton from 'material-ui/IconButton'
-import MenuIcon from 'material-ui-icons/Menu'
-import Drawer from "material-ui/es/Drawer/Drawer"
-import {AppList} from '../modules/index'
+import Drawer from 'material-ui/es/Drawer/Drawer'
+import {AppList, AppAdd, AppEdit} from '../modules/index'
 import AppDrawerItem from './AppDrawerItem'
+import Button from 'material-ui/Button';
+import {Add as AddIcon, Menu as MenuIcon, } from 'material-ui-icons';
 
 const drawerWidth = 280;
 const styles = theme => ({
@@ -64,7 +66,12 @@ const styles = theme => ({
     'contentShift-left': {
         marginLeft: 0,
     },
-
+    button: {
+        margin: theme.spacing.unit,
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
 });
 
 class App extends Component {
@@ -121,11 +128,18 @@ class App extends Component {
                             [classes[`contentShift-${anchor}`]]: open,
                         })}>
                             <Grid container justify="center" spacing={8}>
+                                <Grid item xs={12}>
+                                    <Button className={classes.button} href='/#/create' color="secondary">
+                                        <AddIcon />
+                                        &nbsp;&nbsp;Add article
+                                    </Button>
+                                </Grid>
+
                                 <Grid item xs={11}>
                                     <div>
-                                        <Route exact path='/'
-                                               component={() => (<p className="App-intro">Hello World!</p>)}/>
+                                        <Route exact path='/' component={() => (<p className="App-intro">Hello World!</p>)}/>
                                         <Route path='/list' component={AppList}/>
+                                        <Route path='/create' component={AppAdd}/>
                                     </div>
                                 </Grid>
                             </Grid>

@@ -67,6 +67,7 @@ func main() {
 	router := gin.Default()
 	router.Use(preProcMiddleware())
 	// router.LoadHTMLGlob("templates/*.tmpl") // Enable templates.
+	router.GET("/", app.Top)
 	router.GET("/index", app.Index)
 	//router.GET("/create", Create)
 	//router.POST("/store", Store)

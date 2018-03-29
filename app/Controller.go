@@ -21,6 +21,12 @@ type Comments struct {
 	Updated_at string
 }
 
+func Top(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"result": "ok",
+	})
+}
+
 func Index(c *gin.Context) {
 	comments := make([]Comments, 0)
 	__collection = GetCollection("my_bbs", "comments")
