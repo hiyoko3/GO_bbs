@@ -1,5 +1,20 @@
-import AppList from './AppList'
-import AppAdd from './AppAdd'
-import AppEdit from './AppEdit'
+/* redux */
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 
-export { AppList, AppAdd, AppEdit }
+/* My modules */
+import { __Reducer } from './list'
+
+// Build reducers
+const Reducer = combineReducers({
+    __Reducer
+});
+
+// Build store to use "redux"
+const store = createStore(
+    Reducer,
+    applyMiddleware(thunk, logger)
+);
+
+export default store;

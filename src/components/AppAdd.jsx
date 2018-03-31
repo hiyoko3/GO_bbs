@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
 import {withStyles} from 'material-ui/styles'
 import PropTypes from 'prop-types'
 import TextField from 'material-ui/TextField'
@@ -7,7 +8,9 @@ import Button from "material-ui/es/Button/Button"
 import FormControl from "material-ui/es/Form/FormControl"
 import Card, {CardContent, CardHeader} from 'material-ui/Card'
 import Grid from 'material-ui/Grid'
-import Dropzone from 'react-dropzone';
+import Dropzone from 'react-dropzone'
+import { Clear as ClearIcon } from 'material-ui-icons'
+import IconButton from "material-ui/es/IconButton/IconButton";
 
 const styles = theme => ({
     root: {
@@ -83,15 +86,16 @@ class AppAdd extends Component {
 
     nameChange(event) {
         this.setState({name: event.target.value,});
-    };
+    }
 
     commentChange(event) {
         this.setState({comments: event.target.value,});
-    };
+    }
 
     submit () {
 
     }
+
     onDrop(acceptedFiles, rejectedFiles) {
         // console.log('Accepted files: ', acceptedFiles[0].name);
         let images = this.state.images;
@@ -136,6 +140,9 @@ class AppAdd extends Component {
                 <Card className="">
                     <CardHeader title={
                         <Typography variant="title" className={classes.title}>
+                            <IconButton className="" component={Link} to="/list" aria-label="clear">
+                                <ClearIcon />
+                            </IconButton>
                             Create Article
                         </Typography>
                     }/>

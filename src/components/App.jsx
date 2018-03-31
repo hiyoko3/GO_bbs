@@ -1,19 +1,25 @@
+// react
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from 'material-ui/styles'
 import classNames from 'classnames'
+// material-ui
 import Grid from 'material-ui/es/Grid/Grid'
-import { withRouter } from 'react-router';
-import {HashRouter as Router, Route} from 'react-router-dom'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import IconButton from 'material-ui/IconButton'
 import Drawer from 'material-ui/es/Drawer/Drawer'
-import {AppList, AppAdd, AppEdit} from '../modules/index'
-import AppDrawerItem from './AppDrawerItem'
 import Button from 'material-ui/Button';
-import {Add as AddIcon, Menu as MenuIcon, } from 'material-ui-icons';
+import {Add as AddIcon, Menu as MenuIcon,} from 'material-ui-icons';
+// My component
+import {AppAdd, AppDrawerItem, AppList} from './index'
+// react-router
+import {withRouter} from 'react-router';
+import {HashRouter as Router, Route} from 'react-router-dom'
+// redux
+import {Provider} from 'react-redux'
+import store from '../modules/index'
 
 const drawerWidth = 280;
 const styles = theme => ({
@@ -86,9 +92,11 @@ class App extends Component {
         this.handleDrawerClose = this.handleDrawerClose.bind(this);
     }
 
-    componentWillMount() {} // Called before DOM content loaded.
+    componentWillMount() {
+    } // Called before DOM content loaded.
 
-    componentDidMount() {} // Called after DOM content loaded.
+    componentDidMount() {
+    } // Called after DOM content loaded.
 
     handleDrawerOpen() {
         this.setState({open: true});
@@ -115,37 +123,40 @@ class App extends Component {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Router>
-                    <div className={classes.appFrame}>
-                        <Drawer variant="persistent" open={open} anchor={anchor} classes={{
-                            paper: classes.drawer,
-                        }}>
-                            {AppDrawerItem}
-                        </Drawer>
+                <Provider store={store}>
+                    <Router>
+                        <div className={classes.appFrame}>
+                            <Drawer variant="persistent" open={open} anchor={anchor} classes={{
+                                paper: classes.drawer,
+                            }}>
+                                {AppDrawerItem}
+                            </Drawer>
 
-                        <main className={classNames(classes.content, classes[`content-${anchor}`], {
-                            [classes.contentShift]: open,
-                            [classes[`contentShift-${anchor}`]]: open,
-                        })}>
-                            <Grid container justify="center" spacing={8}>
-                                <Grid item xs={12}>
-                                    <Button className={classes.button} href='/#/create' color="secondary">
-                                        <AddIcon />
-                                        &nbsp;&nbsp;Add article
-                                    </Button>
-                                </Grid>
+                            <main className={classNames(classes.content, classes[`content-${anchor}`], {
+                                [classes.contentShift]: open,
+                                [classes[`contentShift-${anchor}`]]: open,
+                            })}>
+                                <Grid container justify="center" spacing={8}>
+                                    <Grid item xs={12}>
+                                        <Button className={classes.button} href='/#/create' color="secondary">
+                                            <AddIcon/>
+                                            &nbsp;&nbsp;Add article
+                                        </Button>
+                                    </Grid>
 
-                                <Grid item xs={11}>
-                                    <div>
-                                        <Route exact path='/' component={() => (<p className="App-intro">Hello World!</p>)}/>
-                                        <Route path='/list' component={AppList}/>
-                                        <Route path='/create' component={AppAdd}/>
-                                    </div>
+                                    <Grid item xs={11}>
+                                        <div>
+                                            <Route exact path='/'
+                                                   component={() => (<p className="App-intro">Hello World!</p>)}/>
+                                            <Route path='/list' component={AppList}/>
+                                            <Route path='/create' component={AppAdd}/>
+                                        </div>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </main>
-                    </div>
-                </Router>
+                            </main>
+                        </div>
+                    </Router>
+                </Provider>
             </div>
         );
     }

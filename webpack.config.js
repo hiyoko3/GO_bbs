@@ -27,14 +27,15 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: "babel-loader", // Babelをwebpackで利用できるようにする
                 options: {
-                    presets: ['react', ["env", {
+                    presets: ['react', ["env", { // reactとes6をトランスパイル対象とする
                         "targets": {
                             "browsers": [
                                 "last 2 versions",
                                 "safari >= 7"
                             ]
                         }
-                    }]] // reactとes6をトランスパイル対象とする
+                    }]],
+                    "plugins": ["transform-object-rest-spread"]
                 }
             },
             {
