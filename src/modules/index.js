@@ -2,13 +2,16 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
+/* react-router */
+// import { browserHistory } from 'react-router'
+// import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 /* My modules */
-import { __Reducer } from './list'
+import { __listReducer, __Action } from './list'
 
 // Build reducers
 const Reducer = combineReducers({
-    __Reducer
+    __listReducer
 });
 
 // Build store to use "redux"
@@ -17,4 +20,6 @@ const store = createStore(
     applyMiddleware(thunk, logger)
 );
 
-export default store;
+// const history = syncHistoryWithStore(browserHistory, store);
+
+export { store, __Action } ;

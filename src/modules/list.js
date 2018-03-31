@@ -6,7 +6,7 @@ const STATUS = {
     FETCH_ARTICLES: 'FETCH_ARTICLES',
     RECEIVE_ARTICLES: 'RECEIVE_ARTICLES',
     CATCH_ERROR: 'CATCH_ERROR'
-}
+};
 
 export const __Action = {
     // ready to fetch data
@@ -26,14 +26,13 @@ export const __Action = {
         receiveAt: Date.now()
     }),
     // Get articles
-    getArticles: (store) => (
+    getArticles: () => (
         dispatch => {
             dispatch(__Action.fetchArticles()); // Notify a current status
             return axios.get('http://localhost:8080/index')
                 .then(res => {
                     dispatch(__Action.receiveArticles(res.data)); // Notify to succeed acquiring data from the server
                 }).catch(res => {
-                    console.error(res);
                     dispatch(__Action.catchError(res)); // Notification an error
                 });
         }
@@ -47,44 +46,41 @@ const __state = {
     list: []
 };
 
-export const __Reducer = {
-    List: (state = [__state], action) => {
-        console.warn('state', state, '...state', ...state, action);
-        switch (action.type) {
-            // case 'ADD_ARTICLE':
-            //     return [];
-            // case 'UPDATE_ARTICLE':
-            //     return [];
-            // case 'DELETE_ARTICLE':
-            //     return [];
-            case STATUS.FETCH_ARTICLES:
-                return [
-                    ...state,
-                    {
-                        isFetch: true,
-                        list: []
-                    }
-                ];
-            case STATUS.RECEIVE_ARTICLES:
-                return [
-                    ...state,
-                    {
-                        isFetch: false,
-                        list: action.list,
-                        lastUpdated: action.receiveAt
-                    }
-                ];
-            case STATUS.CATCH_ERROR:
-                return [
-                    ...state,
-                    {
-                        isFetch: false,
-                        error: action.err,
-                        lastUpdated: action.receiveAt
-                    }
-                ]
-            default:
-                return state
-        }
+export const __listReducer = (state = [__state], action) => {
+    switch (action.type) {
+        // case 'ADD_ARTICLE':
+        //     return [];
+        // case 'UPDATE_ARTICLE':
+        //     return [];
+        // case 'DELETE_ARTICLE':
+        //     return [];
+        case STATUS.FETCH_ARTICLES:
+            return [
+                ...state,
+                {
+                    isFetch: true,
+                    list: []
+                }
+            ];
+        case STATUS.RECEIVE_ARTICLES:
+            return [
+                ...state,
+                {
+                    isFetch: false,
+                    list: action.list,
+                    lastUpdated: action.receiveAt
+                }
+            ];
+        case STATUS.CATCH_ERROR:
+            return [
+                ...state,
+                {
+                    isFetch: false,
+                    error: action.err,
+                    lastUpdated: action.receiveAt
+                }
+            ];
+        default:
+            return state
     }
 };

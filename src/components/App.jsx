@@ -13,13 +13,16 @@ import Drawer from 'material-ui/es/Drawer/Drawer'
 import Button from 'material-ui/Button';
 import {Add as AddIcon, Menu as MenuIcon,} from 'material-ui-icons';
 // My component
-import {AppAdd, AppDrawerItem, AppList} from './index'
+import {AppAdd, AppDrawerItem} from './index'
+import { GetList } from '../containers/index'
 // react-router
 import {withRouter} from 'react-router';
 import {HashRouter as Router, Route} from 'react-router-dom'
 // redux
 import {Provider} from 'react-redux'
-import store from '../modules/index'
+import { store, __Action } from '../modules/index'
+
+store.dispatch(__Action.getArticles());
 
 const drawerWidth = 280;
 const styles = theme => ({
@@ -148,7 +151,7 @@ class App extends Component {
                                         <div>
                                             <Route exact path='/'
                                                    component={() => (<p className="App-intro">Hello World!</p>)}/>
-                                            <Route path='/list' component={AppList}/>
+                                            <Route path='/list' component={GetList}/>
                                             <Route path='/create' component={AppAdd}/>
                                         </div>
                                     </Grid>
